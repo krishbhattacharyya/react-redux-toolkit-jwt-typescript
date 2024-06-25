@@ -18,7 +18,7 @@ export const getLoggedinUsers = async (emailId = "", password = "") => {
     const { data } = await response
     return { ok: true, data: data }
   } catch (err: any) {
-    throw new Error(err.response.data)
+    return Promise.reject(err.response.data.error)
   }
 }
 
@@ -39,7 +39,7 @@ export const setSignUpUsers = async (emailId = "", password = "") => {
     const { data } = await response
     return { ok: true, data: data }
   } catch (err: any) {
-    throw new Error (err.response.data)
+    return Promise.reject(err.response.data.error)
   }
 }
 
@@ -55,6 +55,6 @@ export const setLogOutUsers = async (emailId = "", password = "") => {
     const { data } = await response
     return { ok: true, data: data }
   } catch (err: any) {
-    throw new Error (err.response.data)
+    return Promise.reject(err.response.data.error)
   }
 }

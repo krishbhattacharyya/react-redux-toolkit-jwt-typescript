@@ -27,6 +27,7 @@ export const productSlice = createAppSlice({
           const response: any = await getAllProducts()
           return response.data
         } catch (err: any) {
+          console.log("productsFetchAllAsync", err)
           throw new Error(err)
         }
       },
