@@ -1,14 +1,8 @@
-import Container from "react-bootstrap/Container"
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
+import LoginPageTemplate from "../templates/login-page-template"
 
 const LogInPage = () => {
   return (
-    <Container>
-      <Row>
-        <Col>Login</Col>
-      </Row>
-    </Container>
+    <LoginPageTemplate heading={'Login Page'} subHeading={'Sign in to your Account, and get the most out of all the services you use'} />
   )
 }
 
