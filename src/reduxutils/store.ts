@@ -2,7 +2,12 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 
-import { persistReducer, persistStore } from "redux-persist"
+import { persistReducer, persistStore, FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER, } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 
 import { encryptTransform } from 'redux-persist-transform-encrypt';
@@ -46,6 +51,7 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: false,
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       }),
     //preloadedState
   })

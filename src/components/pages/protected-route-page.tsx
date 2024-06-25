@@ -1,20 +1,12 @@
-import { useAppDispatch, useAppSelector } from "../../reduxutils/hooks"
+import { useAppSelector } from "../../reduxutils/hooks"
 import {
-  selectUserLoggedIn,
-  resetUser,
+  selectUserLoggedIn
 } from "../../reduxfeatures/auth/authSlice"
 import { Outlet, Navigate } from "react-router-dom"
-import useLocalStorage from "../../hooks/use-local-storage"
 
 export default function ProtectedRoute() {
-  const { getStorage } = useLocalStorage()
-  const dispatch = useAppDispatch()
-  const ifJwt = getStorage("accesstoken")
   const isLoggedIn = useAppSelector(selectUserLoggedIn)
-  if (!ifJwt || ifJwt === undefined) {
-    if (isLoggedIn) {
-      dispatch(resetUser())
-    }
+  if (!isLoggedIn) {
     return <Navigate to="/login" />
   }
   return (

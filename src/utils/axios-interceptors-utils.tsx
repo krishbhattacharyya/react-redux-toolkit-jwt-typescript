@@ -24,8 +24,8 @@ async function refreshToken() {
     const { data } = await response
     const { accessToken } = data
     return accessToken
-  } catch (err) {
-    throw new Error("Token not generated")
+  } catch (err:any) {
+    return Promise.reject(err)
   }
 }
 
@@ -66,8 +66,8 @@ axios.interceptors.response.use(
           JSON.stringify(getConfigWithRefreshToken),
         )
         return axios(originalRequest)
-      } catch (err) {
-        throw new Error("Problem to generate aceess token")
+      } catch (err:any) {
+        return Promise.reject(err)
       }
     }
     // Do something with response error

@@ -1,5 +1,6 @@
 import { createAppSlice } from "../../reduxutils/createAppSlice"
 import { getLoggedinUsers, setSignUpUsers, setLogOutUsers } from "./authAPI"
+import { PURGE } from "redux-persist";
 
 export interface authSliceState<Data, DataS> {
   loading: boolean
@@ -41,9 +42,6 @@ export const authSlice = createAppSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: create => ({
-    resetUser: create.reducer((state, action) => {
-      state= initialState
-    }),
     logInAsync: create.asyncThunk(
       async (
         { emailId, password }: { emailId: string; password: string },
@@ -51,10 +49,8 @@ export const authSlice = createAppSlice({
       ) => {
         try {
           const response: any = await getLoggedinUsers(emailId, password)
-          console.log("data","====")
           return response.data
         } catch (err: any) {
-          console.log("err","====")
           throw new Error(err)
         }
       },
@@ -93,7 +89,6 @@ export const authSlice = createAppSlice({
           const response: any = await setSignUpUsers(emailId, password)
           return response.data
         } catch (err: any) {
-          console.log("err=========", err)
           throw new Error(err)
         }
       },
@@ -156,6 +151,11 @@ export const authSlice = createAppSlice({
   }),
   // You can define your selectors here. These selectors receive the slice
   // state as their first argument.
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, (state, action) => {
+      return initialState
+    })
+  },
   selectors: {
     selectAuthUser: auth => auth.userInfo,
     selectAuthStatus: auth => auth.status,
@@ -173,7 +173,7 @@ export const authSlice = createAppSlice({
 })
 
 // Action creators are generated for each case reducer function.
-export const { logInAsync, signUpAsync, resetUser, logOutAsync } =
+export const { logInAsync, signUpAsync, logOutAsync } =
   authSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.

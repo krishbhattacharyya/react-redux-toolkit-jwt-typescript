@@ -12,6 +12,6 @@ export const getAllProducts = async (emailId = "", password = "") => {
     const { data } = await response
     return { ok: true, data: data }
   } catch (err: any) {
-    throw new Error (err.response.data.error)
+    return Promise.reject(err.response.data.error)
   }
 }

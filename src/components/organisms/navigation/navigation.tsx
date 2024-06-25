@@ -5,13 +5,21 @@ import Button from "react-bootstrap/Button"
 import { NavLink } from "react-router-dom"
 import { useAppDispatch } from "../../../reduxutils/hooks"
 import { logOutAsync } from "../../../reduxfeatures/auth/authSlice"
+import {
+  clearLocalStorage,
+} from "../../../utils/local-storage"
+
+import {persistor} from '../../../reduxutils/store'
+
 
 import NavLinkAtom from "../../atoms/nav-link/nav-link-atom"
 
 function Navigation({ isLogin, user }: { isLogin: boolean; user: any }) {
   const dispatch = useAppDispatch()
   function logOut() {
-    dispatch(logOutAsync())
+    persistor.purge();
+    clearLocalStorage()
+    //dispatch(logOutAsync())
   }
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
