@@ -1,13 +1,14 @@
 import type { AppStore } from "../../app/store"
 import { makeStore } from "../../app/store"
-import type { CounterSliceState } from "./counterSlice"
+import type { authSliceState } from "./authSlice"
 import {
-  counterSlice,
-  decrement,
-  increment,
-  incrementByAmount,
-  selectCount,
-} from "./counterSlice"
+  authSlice,
+  selectAuthUser,
+  selectAuthFetchStatus,
+  selectAuthLoading,
+  selectAuthError,
+  selectAuthSuccess,
+} from "./authSlice"
 
 interface LocalTestContext {
   store: AppStore
@@ -15,17 +16,21 @@ interface LocalTestContext {
 
 describe<LocalTestContext>("counter reducer", it => {
   beforeEach<LocalTestContext>(context => {
-    const initialState: CounterSliceState = {
-      value: 3,
+    const initialState: authSliceState<{}> = {
+      loading: false,
+      userInfo: {}, // for user object
+      userToken: null, // for storing the JWT
+      error: null,
+      success: false, // for monitoring the registration process.
       status: "idle",
     }
 
-    const store = makeStore({ counter: initialState })
+    const store = makeStore({ auth: initialState })
 
     context.store = store
   })
 
-  it("should handle initial state", () => {
+  /*it("should handle initial state", () => {
     expect(counterSlice.reducer(undefined, { type: "unknown" })).toStrictEqual({
       value: 0,
       status: "idle",
@@ -54,5 +59,5 @@ describe<LocalTestContext>("counter reducer", it => {
     store.dispatch(incrementByAmount(2))
 
     expect(selectCount(store.getState())).toBe(5)
-  })
+  })*/
 })
