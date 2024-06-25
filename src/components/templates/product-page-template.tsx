@@ -17,6 +17,13 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 
+
+import {
+  clearLocalStorage,
+} from "../../utils/local-storage"
+
+import {persistor} from '../../reduxutils/store'
+
 export default function ProductPageTemplate({
   heading,
   subHeading,
@@ -25,7 +32,6 @@ export default function ProductPageTemplate({
   subHeading: string
 }) {
   const dispatch = useAppDispatch()
-  const isLoading = useAppSelector(selectFetchProductsLoading)
   const isSuccess = useAppSelector(selectFetchAllProductsSuccess)
   const error = useAppSelector(selectFetchAllProductsError)
   const products = useAppSelector(selectFetchAllProducts)
@@ -38,7 +44,9 @@ export default function ProductPageTemplate({
     dispatch(productsFetchAllAsync())
   }, [])
 
-  if (!isLoggedIn) {
+  if (error === 'Unauthorized') {
+    persistor.purge();
+    clearLocalStorage()
     return <Navigate to="/login" />
   }
 
